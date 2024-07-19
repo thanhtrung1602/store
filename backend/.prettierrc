@@ -1,0 +1,8 @@
+{
+  "singleQuote": true,
+  "trailingComma": "all",
+  "endOfLine": "lf",
+  "editor.formatOnSave": true,
+  "eslint.autoFixOnSave": true,
+  "prettier.requireConfig": true
+}
