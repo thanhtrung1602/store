@@ -1,4 +1,4 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Delete, Get, Post, Put } from '@nestjs/common';
 
 @Controller('products')
 export class ProductsController {
@@ -10,4 +10,13 @@ export class ProductsController {
 
   @Get('getProductByCategory/:id')
   getProductByCategory() {}
+
+  @Post('createProduct')
+  createProduct() {}
+
+  @Put('updateProduct')
+  updateProduct() {}
+
+  @Delete('deleteProduct')
+  deleteProduct() {}
 }

@@ -5,7 +5,7 @@ import { users } from '@prisma/client';
 import { compare, hash } from 'bcrypt';
 @Injectable()
 export class AuthService {
-  constructor(private prismaService: PrismaService) {}
+  constructor(private readonly prismaService: PrismaService) {}
   register = async (body: RegisterDto): Promise<users> => {
     const user = await this.prismaService.users.findUnique({
       where: {

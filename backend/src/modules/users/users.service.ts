@@ -4,7 +4,7 @@ import { UsersDto } from './dto/user.model';
 
 @Injectable()
 export class UsersService {
-  constructor(private prismaService: PrismaService) {}
+  constructor(private readonly prismaService: PrismaService) {}
   async getAllUser(): Promise<UsersDto[]> {
     return this.prismaService.users.findMany();
   }
