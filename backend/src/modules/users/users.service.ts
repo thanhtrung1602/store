@@ -1,16 +1,16 @@
 import { PrismaService } from './../../prisma.service';
 import { Injectable } from '@nestjs/common';
-import { UsersDto } from './dto/user.model';
+import { UsersDto } from './dto/user.dto';
 
 @Injectable()
 export class UsersService {
   constructor(private readonly prismaService: PrismaService) {}
   async getAllUser(): Promise<UsersDto[]> {
-    return this.prismaService.users.findMany();
+    return await this.prismaService.users.findMany();
   }
 
   async updateUser(userData: UsersDto, id: number) {
-    return this.prismaService.users.update({
+    return await this.prismaService.users.update({
       where: {
         user_id: id,
       },

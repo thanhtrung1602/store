@@ -1,4 +1,4 @@
-import { UsersDto } from './dto/user.model';
+import { UsersDto } from './dto/user.dto';
 import { UsersService } from './users.service';
 import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 
@@ -7,7 +7,7 @@ export class UsersController {
   constructor(private readonly usersService: UsersService) {}
   @Get('getAllUsers')
   async getAllUsers(): Promise<UsersDto[]> {
-    return this.usersService.getAllUser();
+    return await this.usersService.getAllUser();
   }
 
   @Post('updateUser/:id')
