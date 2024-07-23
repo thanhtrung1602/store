@@ -1,6 +1,11 @@
 import { PrismaService } from './../../prisma.service';
 import { Injectable } from '@nestjs/common';
-import { GetProductDto } from './dto/products.dto';
+import {
+  createProductDto,
+  GetProductDto,
+  UpdateProductDto,
+} from './dto/products.dto';
+import { products } from '@prisma/client';
 
 @Injectable()
 export class ProductsService {
@@ -14,7 +19,7 @@ export class ProductsService {
   async getOneProduct(id: number): Promise<GetProductDto> {
     const product = await this.prismaService.products.findUnique({
       where: {
-        product_id: id,
+        product_id: Number(id),
       },
     });
 
@@ -24,16 +29,59 @@ export class ProductsService {
   async getProductByCategory(id: number): Promise<GetProductDto[]> {
     const productCategory = await this.prismaService.products.findMany({
       where: {
-        category_id: id,
+        category_id: Number(id),
       },
     });
 
     return productCategory;
   }
 
-  createProduct() {}
+  async createProduct(file, data: createProductDto): Promise<products> {
+    const createProduct = await this.prismaService.products.create({
+      data: {
+        name: data.name,
+        description: data.description,
+        price: Number(data.price),
+        image: file,
+        stock: Number(data.stock),
+        category_id: Number(data.category_id),
+        user_id: Number(data.user_id),
+      },
+    });
 
-  updateProduct() {}
+    return createProduct;
+  }
 
-  deleteProduct() {}
+  async updateProduct(
+    file: string,
+    data: UpdateProductDto,
+    id: number,
+  ): Promise<products> {
+    const updateProduct = await this.prismaService.products.update({
+      where: {
+        product_id: id,
+      },
+      data: {
+        name: data.name,
+        description: data.description,
+        price: Number(data.price),
+        image: file,
+        stock: Number(data.stock),
+        category_id: Number(data.category_id),
+        user_id: Number(data.user_id),
+      },
+    });
+
+    return updateProduct;
+  }
+
+  async deleteProduct(id: number) {
+    const delProduct = await this.prismaService.products.delete({
+      where: {
+        product_id: Number(id),
+      },
+    });
+
+    return delProduct;
+  }
 }
