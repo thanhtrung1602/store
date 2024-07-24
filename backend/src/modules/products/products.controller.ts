@@ -1,7 +1,7 @@
 import { CloudinaryService } from './../../cloudinary/cloudinary.service';
 import { products } from '@prisma/client';
 import {
-  createProductDto,
+  CreateProductDto,
   GetProductDto,
   UpdateProductDto,
 } from './dto/products.dto';
@@ -18,7 +18,15 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
-
+import {
+  ApiBody,
+  ApiConsumes,
+  ApiCreatedResponse,
+  ApiParam,
+  ApiResponse,
+  ApiTags,
+} from '@nestjs/swagger';
+@ApiTags('products')
 @Controller('products')
 export class ProductsController {
   constructor(
@@ -27,16 +35,33 @@ export class ProductsController {
   ) {}
 
   @Get('getAllProduct')
+  @ApiResponse({
+    status: 200,
+    description: 'Get all products',
+    type: [GetProductDto],
+  })
   async getAllProduct(): Promise<GetProductDto[]> {
     return this.productsService.getAllProduct();
   }
 
   @Get('getOneProduct/:id')
+  @ApiParam({ name: 'id', description: 'Product ID' })
+  @ApiResponse({
+    status: 200,
+    description: 'Get one product',
+    type: GetProductDto,
+  })
   async getOneProduct(@Param('id') id: number): Promise<GetProductDto> {
     return this.productsService.getOneProduct(id);
   }
 
   @Get('getProductByCategory/:id')
+  @ApiParam({ name: 'id', description: 'Product ID' })
+  @ApiResponse({
+    status: 200,
+    description: 'Get product by category',
+    type: [GetProductDto],
+  })
   async getProductByCategory(
     @Param('id') id: number,
   ): Promise<GetProductDto[]> {
@@ -44,10 +69,18 @@ export class ProductsController {
   }
 
   @Post('createProduct')
+  @ApiCreatedResponse({
+    description: 'successfully create product.',
+  })
   @UseInterceptors(FileInterceptor('file'))
+  @ApiConsumes('multipart/form-data')
+  @ApiBody({
+    description: 'create Product',
+    type: CreateProductDto,
+  })
   async createProduct(
     @UploadedFile() file: Express.Multer.File,
-    @Body() data: createProductDto,
+    @Body() data: CreateProductDto,
   ): Promise<products> {
     if (!file) {
       throw new Error('No file uploaded');
@@ -58,6 +91,12 @@ export class ProductsController {
   }
 
   @Put('updateProduct/:id')
+  @ApiParam({ name: 'id', description: 'Update product by id' })
+  @ApiResponse({
+    status: 200,
+    description: 'update product',
+    type: UpdateProductDto,
+  })
   @UseInterceptors(FileInterceptor('file'))
   async updateProduct(
     @UploadedFile() file: Express.Multer.File,
@@ -71,7 +110,14 @@ export class ProductsController {
   }
 
   @Delete('deleteProduct/:id')
-  async deleteProduct(@Param('id') id: number) {
-    return this.productsService.deleteProduct(id);
+  @ApiParam({ name: 'id', description: 'delete product by id' })
+  @ApiResponse({
+    status: 200,
+    description: 'delete product by id',
+    type: String,
+  })
+  async deleteProduct(@Param('id') id: number): Promise<string> {
+    await this.productsService.deleteProduct(id);
+    return 'Product deleted successfully';
   }
 }
