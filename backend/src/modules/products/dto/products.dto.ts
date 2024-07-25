@@ -73,7 +73,6 @@ export class CreateProductDto {
   @ApiProperty({
     type: String,
   })
-  @IsString()
   image: string;
 
   @ApiProperty({
