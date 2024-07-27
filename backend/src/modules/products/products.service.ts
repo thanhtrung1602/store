@@ -16,6 +16,18 @@ export class ProductsService {
     return products;
   }
 
+  async getAllProductPagina(
+    page: number,
+    limit: number,
+  ): Promise<GetProductDto[]> {
+    const skip = (page - 1) * limit;
+    const products = await this.prismaService.products.findMany({
+      skip: skip,
+      take: limit,
+    });
+    return products;
+  }
+
   async getOneProduct(id: number): Promise<GetProductDto> {
     const product = await this.prismaService.products.findUnique({
       where: {

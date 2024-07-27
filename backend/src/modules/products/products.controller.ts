@@ -14,6 +14,7 @@ import {
   Param,
   Post,
   Put,
+  Query,
   UploadedFile,
   UseInterceptors,
 } from '@nestjs/common';
@@ -42,6 +43,19 @@ export class ProductsController {
   })
   async getAllProduct(): Promise<GetProductDto[]> {
     return this.productsService.getAllProduct();
+  }
+
+  @Get('getAllProductPagina')
+  @ApiResponse({
+    status: 200,
+    description: 'Get all products',
+    type: [GetProductDto],
+  })
+  async getAllProductPagina(
+    @Query('page') page: number = 1,
+    @Query('limit') limit: number = 2,
+  ): Promise<GetProductDto[]> {
+    return this.productsService.getAllProductPagina(page, limit);
   }
 
   @Get('getOneProduct/:id')
