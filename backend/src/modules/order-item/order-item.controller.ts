@@ -4,6 +4,7 @@ import {
   ApiCreatedResponse,
   ApiParam,
   ApiResponse,
+  ApiTags,
 } from '@nestjs/swagger';
 import { OrderItemService } from './order-item.service';
 import {
@@ -21,7 +22,8 @@ import {
   UpdateOrderItemDto,
 } from './dto/orderItem.dto';
 
-@Controller('order-item')
+@ApiTags('orderItem')
+@Controller('orderItem')
 export class OrderItemController {
   constructor(private readonly orderItemService: OrderItemService) {}
 
@@ -41,7 +43,9 @@ export class OrderItemController {
   @ApiCreatedResponse({ description: 'post order item' })
   @ApiBody({ description: 'create order', type: CreateOrderItemDto })
   async postOrderItem(@Body() data: CreateOrderItemDto): Promise<orderitems> {
-    const createOrderItem = await this.orderItemService.postOrderItem(data);
+    const createOrderItem = await this.orderItemService.postOrderItem({
+      ...data,
+    });
     return createOrderItem;
   }
 

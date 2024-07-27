@@ -9,8 +9,8 @@ import { orders } from '@prisma/client';
 export class OrdersController {
   constructor(private readonly ordersService: OrdersService) {}
 
-  @Get('getOrder')
-  async getOrder(id: number): Promise<OrderDto[]> {}
+  // @Get('getOrder')
+  // async getOrder(id: number): Promise<OrderDto[]> {}
 
-  async postOrder(data: CreateOrderDto): Promise<orders> {}
+  // async postOrder(data: CreateOrderDto): Promise<orders> {}
 }

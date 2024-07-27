@@ -9,13 +9,11 @@ import { ProductsModule } from './modules/products/products.module';
 import { CategoriesModule } from './modules/categories/categories.module';
 import { OrderItemModule } from './modules/order-item/order-item.module';
 import { OrdersModule } from './modules/orders/orders.module';
-import { AdminModule } from './modules/users copy/admin.module';
 
 @Module({
   imports: [
     AuthModule,
     UsersModule,
-    AdminModule,
     CloudinaryModule,
     ProductsModule,
     CategoriesModule,
