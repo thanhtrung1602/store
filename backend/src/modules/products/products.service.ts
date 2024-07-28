@@ -12,56 +12,76 @@ export class ProductsService {
   constructor(private readonly prismaService: PrismaService) {}
 
   async getAllProduct(): Promise<GetProductDto[]> {
-    const products = await this.prismaService.products.findMany();
-    return products;
+    try {
+      const products = await this.prismaService.products.findMany();
+      return products;
+    } catch (error) {
+      throw error;
+    }
   }
 
-  async getAllProductPagina(
+  async getAllProductPagination(
     page: number,
     limit: number,
   ): Promise<GetProductDto[]> {
-    const skip = (page - 1) * limit;
-    const products = await this.prismaService.products.findMany({
-      skip: skip,
-      take: limit,
-    });
-    return products;
+    try {
+      const skip = (page - 1) * limit;
+      const products = await this.prismaService.products.findMany({
+        skip: skip,
+        take: limit,
+      });
+      return products;
+    } catch (error) {
+      throw error;
+    }
   }
 
   async getOneProduct(id: number): Promise<GetProductDto> {
-    const product = await this.prismaService.products.findUnique({
-      where: {
-        product_id: Number(id),
-      },
-    });
+    try {
+      const product = await this.prismaService.products.findUnique({
+        where: {
+          product_id: Number(id),
+        },
+      });
 
-    return product;
+      return product;
+    } catch (error) {
+      throw error;
+    }
   }
 
   async getProductByCategory(id: number): Promise<GetProductDto[]> {
-    const productCategory = await this.prismaService.products.findMany({
-      where: {
-        category_id: Number(id),
-      },
-    });
+    try {
+      const productCategory = await this.prismaService.products.findMany({
+        where: {
+          category_id: Number(id),
+        },
+      });
 
-    return productCategory;
+      return productCategory;
+    } catch (error) {
+      throw error;
+    }
   }
 
   async createProduct(file, data: CreateProductDto): Promise<products> {
-    const createProduct = await this.prismaService.products.create({
-      data: {
-        name: data.name,
-        description: data.description,
-        price: Number(data.price),
-        image: file,
-        stock: Number(data.stock),
-        category_id: Number(data.category_id),
-        user_id: Number(data.user_id),
-      },
-    });
+    try {
+      const createProduct = await this.prismaService.products.create({
+        data: {
+          name: data.name,
+          description: data.description,
+          price: Number(data.price),
+          image: file,
+          stock: Number(data.stock),
+          category_id: Number(data.category_id),
+          user_id: Number(data.user_id),
+        },
+      });
 
-    return createProduct;
+      return createProduct;
+    } catch (error) {
+      throw error;
+    }
   }
 
   async updateProduct(
@@ -69,31 +89,39 @@ export class ProductsService {
     data: UpdateProductDto,
     id: number,
   ): Promise<products> {
-    const updateProduct = await this.prismaService.products.update({
-      where: {
-        product_id: id,
-      },
-      data: {
-        name: data.name,
-        description: data.description,
-        price: Number(data.price),
-        image: file,
-        stock: Number(data.stock),
-        category_id: Number(data.category_id),
-        user_id: Number(data.user_id),
-      },
-    });
+    try {
+      const updateProduct = await this.prismaService.products.update({
+        where: {
+          product_id: id,
+        },
+        data: {
+          name: data.name,
+          description: data.description,
+          price: Number(data.price),
+          image: file,
+          stock: Number(data.stock),
+          category_id: Number(data.category_id),
+          user_id: Number(data.user_id),
+        },
+      });
 
-    return updateProduct;
+      return updateProduct;
+    } catch (error) {
+      throw error;
+    }
   }
 
   async deleteProduct(id: number) {
-    const delProduct = await this.prismaService.products.delete({
-      where: {
-        product_id: Number(id),
-      },
-    });
+    try {
+      const delProduct = await this.prismaService.products.delete({
+        where: {
+          product_id: Number(id),
+        },
+      });
 
-    return delProduct;
+      return delProduct;
+    } catch (error) {
+      throw error;
+    }
   }
 }

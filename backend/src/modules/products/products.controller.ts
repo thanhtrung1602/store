@@ -42,20 +42,33 @@ export class ProductsController {
     type: [GetProductDto],
   })
   async getAllProduct(): Promise<GetProductDto[]> {
-    return this.productsService.getAllProduct();
+    try {
+      const allProduct = await this.productsService.getAllProduct();
+      return allProduct;
+    } catch (error) {
+      throw error;
+    }
   }
 
-  @Get('getAllProductPagina')
+  @Get('getAllProductPagination')
   @ApiResponse({
     status: 200,
     description: 'Get all products',
     type: [GetProductDto],
   })
-  async getAllProductPagina(
+  async getAllProductPagination(
     @Query('page') page: number = 1,
     @Query('limit') limit: number = 2,
   ): Promise<GetProductDto[]> {
-    return this.productsService.getAllProductPagina(page, limit);
+    try {
+      const allPagination = await this.productsService.getAllProductPagination(
+        page,
+        limit,
+      );
+      return allPagination;
+    } catch (error) {
+      throw error;
+    }
   }
 
   @Get('getOneProduct/:id')
@@ -66,7 +79,12 @@ export class ProductsController {
     type: GetProductDto,
   })
   async getOneProduct(@Param('id') id: number): Promise<GetProductDto> {
-    return this.productsService.getOneProduct(id);
+    try {
+      const oneProduct = await this.productsService.getOneProduct(id);
+      return oneProduct;
+    } catch (error) {
+      throw error;
+    }
   }
 
   @Get('getProductByCategory/:id')
@@ -79,7 +97,12 @@ export class ProductsController {
   async getProductByCategory(
     @Param('id') id: number,
   ): Promise<GetProductDto[]> {
-    return this.productsService.getProductByCategory(id);
+    try {
+      const byCategory = await this.productsService.getProductByCategory(id);
+      return byCategory;
+    } catch (error) {
+      throw error;
+    }
   }
 
   @Post('createProduct')
@@ -96,12 +119,20 @@ export class ProductsController {
     @UploadedFile() file: Express.Multer.File,
     @Body() data: CreateProductDto,
   ): Promise<products> {
-    if (!file) {
-      throw new Error('No file uploaded');
+    try {
+      if (!file) {
+        throw new Error('No file uploaded');
+      }
+      const uploadResult = await this.cloudinaryService.uploadFile(file);
+      const imgUrl = uploadResult.secure_url;
+      const postProduct = await this.productsService.createProduct(
+        imgUrl,
+        data,
+      );
+      return postProduct;
+    } catch (error) {
+      throw error;
     }
-    const uploadResult = await this.cloudinaryService.uploadFile(file);
-    const imgUrl = uploadResult.secure_url;
-    return this.productsService.createProduct(imgUrl, data);
   }
 
   @Put('updateProduct/:id')
@@ -117,10 +148,22 @@ export class ProductsController {
     @Param('id') id: string,
     @Body() data: UpdateProductDto,
   ): Promise<products> {
-    const numberId = Number(id);
-    const uploadResult = await this.cloudinaryService.uploadFile(file);
-    const imgUrl = uploadResult.secure_url;
-    return this.productsService.updateProduct(imgUrl, data, numberId);
+    try {
+      const numberId = Number(id);
+
+      const uploadResult = await this.cloudinaryService.uploadFile(file);
+
+      const imgUrl = uploadResult.secure_url;
+
+      const editProduct = await this.productsService.updateProduct(
+        imgUrl,
+        data,
+        numberId,
+      );
+      return editProduct;
+    } catch (error) {
+      throw error;
+    }
   }
 
   @Delete('deleteProduct/:id')
@@ -131,7 +174,11 @@ export class ProductsController {
     type: String,
   })
   async deleteProduct(@Param('id') id: number): Promise<string> {
-    await this.productsService.deleteProduct(id);
-    return 'Product deleted successfully';
+    try {
+      await this.productsService.deleteProduct(id);
+      return 'Product deleted successfully';
+    } catch (error) {
+      throw error;
+    }
   }
 }

@@ -11,13 +11,17 @@ import { orderitems } from '@prisma/client';
 export class OrderItemService {
   constructor(private readonly prismaService: PrismaService) {}
   async getOrderItem(id: number): Promise<OrderItemDto[]> {
-    const getOrderItem = await this.prismaService.orderitems.findMany({
-      where: {
-        user_id: Number(id),
-      },
-    });
+    try {
+      const getOrderItem = await this.prismaService.orderitems.findMany({
+        where: {
+          user_id: Number(id),
+        },
+      });
 
-    return getOrderItem;
+      return getOrderItem;
+    } catch (error) {
+      throw error;
+    }
   }
 
   async postOrderItem({
@@ -27,37 +31,41 @@ export class OrderItemService {
     quantity,
     price,
   }: CreateOrderItemDto): Promise<orderitems> {
-    const checkOrderItem = await this.prismaService.orderitems.findFirst({
-      where: {
-        product_id: product_id,
-        order_id: order_id,
-      },
-    });
-
-    if (checkOrderItem) {
-      const updateOrderItem = await this.prismaService.orderitems.update({
+    try {
+      const checkOrderItem = await this.prismaService.orderitems.findFirst({
         where: {
-          order_item_id: checkOrderItem.order_item_id,
-        },
-        data: {
-          quantity: checkOrderItem.quantity + quantity,
-          price: checkOrderItem.price,
+          product_id: Number(product_id),
+          order_id: Number(order_id),
         },
       });
 
-      return updateOrderItem;
-    } else {
-      const newOrderItem = await this.prismaService.orderitems.create({
-        data: {
-          order_id,
-          product_id,
-          user_id,
-          quantity,
-          price,
-        },
-      });
+      if (checkOrderItem) {
+        const updateOrderItem = await this.prismaService.orderitems.update({
+          where: {
+            order_item_id: checkOrderItem.order_item_id,
+          },
+          data: {
+            quantity: checkOrderItem.quantity + quantity,
+            price: checkOrderItem.price,
+          },
+        });
 
-      return newOrderItem;
+        return updateOrderItem;
+      } else {
+        const newOrderItem = await this.prismaService.orderitems.create({
+          data: {
+            order_id: Number(order_id),
+            product_id: Number(product_id),
+            user_id: Number(user_id),
+            quantity: Number(quantity),
+            price: Number(price),
+          },
+        });
+
+        return newOrderItem;
+      }
+    } catch (error) {
+      throw error;
     }
   }
 
@@ -65,22 +73,30 @@ export class OrderItemService {
     id: number,
     data: UpdateOrderItemDto,
   ): Promise<orderitems> {
-    const editOrderItem = await this.prismaService.orderitems.update({
-      where: {
-        order_item_id: id,
-      },
-      data,
-    });
+    try {
+      const editOrderItem = await this.prismaService.orderitems.update({
+        where: {
+          order_item_id: id,
+        },
+        data,
+      });
 
-    return editOrderItem;
+      return editOrderItem;
+    } catch (error) {
+      throw error;
+    }
   }
 
   async delOrderItem(id: number) {
-    const delOrderItem = await this.prismaService.orderitems.delete({
-      where: {
-        order_item_id: id,
-      },
-    });
-    return delOrderItem;
+    try {
+      const delOrderItem = await this.prismaService.orderitems.delete({
+        where: {
+          order_item_id: id,
+        },
+      });
+      return delOrderItem;
+    } catch (error) {
+      throw error;
+    }
   }
 }

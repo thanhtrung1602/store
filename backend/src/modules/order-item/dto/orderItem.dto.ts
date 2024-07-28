@@ -26,23 +26,18 @@ export class OrderItemDto {
 
 export class CreateOrderItemDto {
   @ApiProperty()
-  @IsNumber()
   order_id: number;
 
   @ApiProperty()
-  @IsNumber()
   product_id: number;
 
   @ApiProperty()
-  @IsNumber()
   user_id: number;
 
   @ApiProperty()
-  @IsNumber()
   quantity: number;
 
   @ApiProperty()
-  @IsNumber()
   price: number;
 }
 

@@ -6,7 +6,12 @@ import { UsersDto } from './dto/user.dto';
 export class UsersService {
   constructor(private readonly prismaService: PrismaService) {}
   async getAllUser(): Promise<UsersDto[]> {
-    return await this.prismaService.users.findMany();
+    try {
+      const allUser = await this.prismaService.users.findMany();
+      return allUser;
+    } catch (error) {
+      throw error;
+    }
   }
 
   async updateUser(userData: UsersDto, id: number) {
