@@ -1,15 +1,27 @@
-import Image from "next/image";
-import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import { useState } from "react";
+import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import { post } from "../../../Api";
+function Login() {
+  const [hiddenPass, setHiddenPass] = useState(false);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const { mutate } = post();
+  const handleLogin = (e) => {
+    e.preventDefault();
+    const data = {
+      email,
+      password,
+    };
+    mutate({ url: "/auth/login", data });
+  };
 
-function LoginPage() {
-  const [hiddenPass, setHiddenPass] = useState();
   return (
     <div className="absolute top-2/4 left-2/4 -translate-x-2/4 -translate-y-2/4">
       <div className="flex items-center">
         <div className="w-[598px] h-[747px] rounded-[20px] px-6 shadow-md">
           <div className="w">
-            <Image
+            <img
               src="https://res.cloudinary.com/dxuknuxer/image/upload/v1722165188/facebook_cover_photo_1_w1tmfw.png"
               alt="logo"
               width={181}
@@ -17,13 +29,15 @@ function LoginPage() {
             />
           </div>
           <h2 className="text-base text-[#000] opacity-50">Welcome back !!!</h2>
-          <form>
+          <form onSubmit={handleLogin}>
             <h1 className="text-[56px] font-semibold text-[#000]">Sign in</h1>
             <div className="flex flex-col">
               <label className="text-base font-light pb-2" htmlFor="idEmail">
                 Email
               </label>
               <input
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
                 type="text"
                 className="bg-[#FFF6F4] outline-none h-[46px] px-3 w-[478px] rounded"
                 name="email"
@@ -40,14 +54,24 @@ function LoginPage() {
                 <span className="text-sm font-light">Forgot Password ?</span>
               </div>
               <input
-                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                type={hiddenPass ? "text" : "password"}
                 className="bg-[#FFF6F4] outline-none h-[46px] px-3 w-[478px] rounded relative"
                 name="password"
                 id="idPassword"
                 placeholder="Nhập mật khẩu của bạn"
               />
               <div className="absolute right-2 bottom-3">
-                <VisibilityOffIcon />
+                {hiddenPass ? (
+                  <button onClick={() => setHiddenPass(false)}>
+                    <VisibilityIcon />
+                  </button>
+                ) : (
+                  <button onClick={() => setHiddenPass(true)}>
+                    <VisibilityOffIcon />
+                  </button>
+                )}
               </div>
             </div>
 
@@ -62,4 +86,4 @@ function LoginPage() {
   );
 }
 
-export default LoginPage;
+export default Login;
