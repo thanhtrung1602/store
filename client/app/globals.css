@@ -1,0 +1,29 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --foreground-rgb: 0, 0, 0;
+  --background-start-rgb: 214, 219, 220;
+  --background-end-rgb: 255, 255, 255;
+}
+
+.title h2 {
+  margin: 10px 0;
+  font-size: 3rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 7px;
+  color: #007aff;
+  text-align: center;
+  max-width: 1397px;
+  min-width: 1024px;
+}
+
+.title p {
+  margin: 10px 0;
+  color: black;
+  text-align: center;
+  max-width: 1397px;
+  min-width: 1024px;
+}

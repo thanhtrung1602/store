@@ -27,6 +27,12 @@ export class GetProductDto {
   price: number;
 
   @ApiProperty({
+    type: Number,
+  })
+  @IsNumber()
+  weight: number;
+
+  @ApiProperty({
     type: String,
   })
   @IsString()

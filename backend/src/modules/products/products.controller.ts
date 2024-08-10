@@ -35,6 +35,28 @@ export class ProductsController {
     private readonly cloudinaryService: CloudinaryService,
   ) {}
 
+  @Get('getProduct175')
+  @ApiResponse({
+    status: 200,
+    description: 'Get all products 175g',
+    type: [GetProductDto],
+  })
+  async getAllProduct175(): Promise<GetProductDto[]> {
+    const allProduct175 = await this.productsService.getAllProduct175();
+    return allProduct175;
+  }
+
+  @Get('getProduct350')
+  @ApiResponse({
+    status: 200,
+    description: 'Get all products 350g',
+    type: [GetProductDto],
+  })
+  async getAllProduct350(): Promise<GetProductDto[]> {
+    const allProduct350 = await this.productsService.getAllProduct350();
+    return allProduct350;
+  }
+
   @Get('getAllProduct')
   @ApiResponse({
     status: 200,

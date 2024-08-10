@@ -1,16 +1,20 @@
-import { Controller, Get } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 import { OrdersService } from './orders.service';
 import { ApiTags } from '@nestjs/swagger';
 import { CreateOrderDto, OrderDto } from './dto/order.dto';
-import { orders } from '@prisma/client';
 
 @ApiTags('orders')
 @Controller('orders')
 export class OrdersController {
   constructor(private readonly ordersService: OrdersService) {}
 
-  // @Get('getOrder')
-  // async getOrder(id: number): Promise<OrderDto[]> {}
+  @Get('getOrder/:id')
+  async getOrder(@Param('id') id: number): Promise<OrderDto[]> {
+    return this.ordersService.getOrder(id);
+  }
 
-  // async postOrder(data: CreateOrderDto): Promise<orders> {}
+  @Post('postOrder')
+  async postOrder(@Body() data: CreateOrderDto): Promise<OrderDto> {
+    return this.ordersService.postOrder(data);
+  }
 }

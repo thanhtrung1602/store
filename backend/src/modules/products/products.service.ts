@@ -11,6 +11,32 @@ import { products } from '@prisma/client';
 export class ProductsService {
   constructor(private readonly prismaService: PrismaService) {}
 
+  async getAllProduct175(): Promise<GetProductDto[]> {
+    try {
+      const getAllProduct175 = await this.prismaService.products.findMany({
+        where: {
+          weight: 175,
+        },
+      });
+      return getAllProduct175;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async getAllProduct350(): Promise<GetProductDto[]> {
+    try {
+      const getAllProduct350 = await this.prismaService.products.findMany({
+        where: {
+          weight: 350,
+        },
+      });
+      return getAllProduct350;
+    } catch (error) {
+      throw error;
+    }
+  }
+
   async getAllProduct(): Promise<GetProductDto[]> {
     try {
       const products = await this.prismaService.products.findMany();

@@ -1,0 +1,43 @@
+.navbar span {
+    font-size: 0.7rem;
+    display: none;
+}
+
+.navbar .phone {
+    margin: 3px;
+}
+
+.navbar article:first-child {
+    margin: 3px;
+}
+
+.navbar {
+    display: grid;
+    gap: 10px;
+    background: #007aff;
+    color: white;
+    height: 150px;
+    margin: 0 4%;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 50px;
+}
+
+.navbar span {
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin: 10px 0;
+}
+
+.navbar span {
+    font-size: 0.7rem;
+    display: block;
+}
+
+.navbar p {
+    font-size: 0.7rem;
+    font-weight: 600;
+    margin: 10px 0;
+}

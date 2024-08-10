@@ -1,0 +1,40 @@
+.product_fisrt {
+    margin: 0 10px;
+    padding: 0 10px;
+    position: relative;
+}
+
+.product_fisrt span {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.product_fisrt:hover {
+    box-shadow: 0 0 5px #ada7a7;
+}
+
+.product_fisrt span:nth-last-child(1) {
+    color: #fe6b5e;
+}
+
+.product_fisrt:hover .hover_car {
+    display: block;
+}
+
+.product_fisrt span:nth-child(3) {
+    color: #666;
+    letter-spacing: 3px;
+    font-size: 0.7rem;
+}
+
+.product_fisrt span:nth-last-child(1) {
+    color: #fe6b5e;
+}
+
+.hover_car {
+    position: absolute;
+    top: 3%;
+    font-size: 1.5rem;
+    right: 5%;
+    display: none;
+}

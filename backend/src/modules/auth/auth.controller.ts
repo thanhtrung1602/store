@@ -1,4 +1,12 @@
-import { Body, Controller, HttpStatus, Post, Req, Res } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  HttpStatus,
+  Post,
+  Req,
+  Res,
+} from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { users } from '@prisma/client';
 import { LoginDto, RegisterDto } from './dto/auth.model';
@@ -73,6 +81,7 @@ export class AuthController {
     }
   }
 
+  @Get('/getToken')
   getCookieToken(@Req() req: Request, @Res() res: Response) {
     const { accessToken } = req.cookies;
     if (!accessToken) {

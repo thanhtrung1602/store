@@ -8,7 +8,7 @@ async function bootstrap() {
   dotenv.config();
   const app = await NestFactory.create(AppModule);
   const corsOptions: CorsOptions = {
-    origin: 'http://localhost:5173',
+    origin: 'http://localhost:8080',
     credentials: true,
   };
   const config = new DocumentBuilder()

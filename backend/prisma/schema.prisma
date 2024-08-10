@@ -27,23 +27,25 @@ model categories {
   products    products[]
 }
 
-model carts {
+
+model carts { 
   cart_id  Int @id @default(autoincrement())
   user_id Int 
   total_amount Int?
-  cartitems cartitems[]
+  
   user users? @relation(fields: [user_id], references: [user_id], onDelete: NoAction, onUpdate: NoAction)
 }
+
 
 model cartitems {
   cart_item_id Int @id @default(autoincrement())
   product_id Int
-  cart_id Int
   quantity Int
   price Int
+  user_id       Int
   created_at    DateTime? @default(now()) @db.Timestamp(6)
   products      products? @relation(fields: [product_id], references: [product_id], onDelete: NoAction, onUpdate: NoAction)
-  carts         carts? @relation(fields: [cart_id], references: [cart_id], onDelete: NoAction, onUpdate: NoAction)
+  users         users     @relation(fields: [user_id], references: [user_id], onDelete: NoAction, onUpdate: NoAction)
 }
 
 model orderitems {
@@ -76,6 +78,7 @@ model products {
   price       Int
   stock       Int?         @default(0)
   category_id Int?
+  weight      Int?
   created_at  DateTime?    @default(now()) @db.Timestamp(6)
   image       String       @db.VarChar(250)
   user_id     Int?
@@ -114,6 +117,7 @@ model users {
   refreshtoken refreshtoken[]
   reviews      reviews[]
   carts        carts[]
+  cartitems cartitems[]
 }
 
 model refreshtoken {
